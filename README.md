@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Campus Connect
 
 Campus Connect is a college-exclusive community platform for students, alumni, clubs, and moderators.
@@ -39,3 +40,7 @@ If `SMTP_HOST` is not configured, the server logs verification codes and develop
 ## Current development phase
 
 Phase 1 foundation is implemented: landing page, college discovery and requests, registration, login, HTTP-only JWT sessions, email verification workflow, protected API routes, and MongoDB college/user models. Subsequent feature phases should add one vertical slice at a time.
+=======
+# Pune-Campus-Connect
+A unified college community platform
+>>>>>>> 5572703258cd3d3d2d75abf10056b62d933ebb4e
