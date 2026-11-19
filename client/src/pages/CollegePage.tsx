@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ArrowLeft, Search, MapPin, Landmark, CheckCircle2 } from 'lucide-react'
 import { api } from '../services/api'
+import { getApiErrorMessage } from '../services/errors'
 import type { College } from '../types'
 
 export function CollegePage() {
@@ -9,33 +10,51 @@ export function CollegePage() {
   const [search, setSearch] = useState('')
   const [city, setCity] = useState('')
   const [loading, setLoading] = useState(true)
+  const [listError, setListError] = useState('')
   const [showRequest, setShowRequest] = useState(false)
   const [requestStatus, setRequestStatus] = useState('')
+  const [requestError, setRequestError] = useState('')
+  const [requestSubmitting, setRequestSubmitting] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
     const timeout = window.setTimeout(async () => {
       setLoading(true)
+      setListError('')
       try {
-        const { data } = await api.get('/colleges', { params: { search: search || undefined, city: city || undefined } })
+        const { data } = await api.get<{ colleges: College[] }>('/colleges', {
+          params: { search: search || undefined, city: city || undefined }
+        })
         setColleges(data.colleges)
-      } catch {
+      } catch (err: unknown) {
         setColleges([])
+        setListError(getApiErrorMessage(err, 'Unable to load colleges right now.'))
       } finally {
         setLoading(false)
       }
     }, 250)
+
     return () => window.clearTimeout(timeout)
   }, [search, city])
 
+  const closeRequest = () => {
+    setShowRequest(false)
+    setRequestStatus('')
+    setRequestError('')
+  }
+
   const submitRequest = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const form = new FormData(event.currentTarget)
+    setRequestSubmitting(true)
+    setRequestError('')
+
     try {
-      await api.post('/colleges/request', Object.fromEntries(form))
+      await api.post('/colleges/request', Object.fromEntries(new FormData(event.currentTarget)))
       setRequestStatus('submitted')
-    } catch (error: any) {
-      setRequestStatus(error.response?.data?.message || 'Unable to submit request')
+    } catch (error: unknown) {
+      setRequestError(getApiErrorMessage(error, 'Unable to submit request. Please try again.'))
+    } finally {
+      setRequestSubmitting(false)
     }
   }
 
@@ -82,22 +101,32 @@ export function CollegePage() {
 
         {!loading && colleges.length === 0 && (
           <div className="feature-card" style={{ textAlign: 'center', maxWidth: 560, margin: '30px auto' }}>
-            <h3>Don't see your college?</h3><p style={{ color: '#747e92', marginBottom: 16 }}>Submit a request and our team will review it.</p>
+            <h3>Don't see your college?</h3>
+            <p style={{ color: '#747e92', marginBottom: 16 }}>
+              {listError || 'Submit a request and our team will review it.'}
+            </p>
             <button className="btn-secondary" onClick={() => setShowRequest(true)}>Request Your College</button>
           </div>
         )}
+
         {showRequest && (
           <div style={{ position: 'fixed', inset: 0, zIndex: 50, background: 'rgba(15,23,42,.45)', display: 'grid', placeItems: 'center', padding: 20 }}>
             <form onSubmit={submitRequest} className="form-card" style={{ background: 'white', borderRadius: 18, padding: 24 }}>
               <h2 style={{ marginTop: 0 }}>Request a college</h2>
-              {requestStatus === 'submitted' ? <p style={{ color: '#16845b' }}>Your college request was submitted.</p> : <>
-                <label style={{ display: 'block', marginBottom: 12 }}>College name<input className="field" name="name" required /></label>
-                <label style={{ display: 'block', marginBottom: 12 }}>City<input className="field" name="city" defaultValue="Pune" required /></label>
-                <label style={{ display: 'block', marginBottom: 12 }}>Your email<input className="field" type="email" name="requesterEmail" required /></label>
-                {requestStatus && <p style={{ color: '#b42318', fontSize: 13 }}>{requestStatus}</p>}
-                <button className="btn-primary" type="submit" style={{ width: '100%' }}>Submit Request</button>
-              </>}
-              <button type="button" className="btn-secondary" style={{ width: '100%', marginTop: 10 }} onClick={() => setShowRequest(false)}>Close</button>
+              {requestStatus === 'submitted' ? (
+                <p style={{ color: '#16845b' }}>Your college request was submitted for review.</p>
+              ) : (
+                <>
+                  <label style={{ display: 'block', marginBottom: 12 }}>College name<input className="field" name="name" required /></label>
+                  <label style={{ display: 'block', marginBottom: 12 }}>City<input className="field" name="city" defaultValue="Pune" required /></label>
+                  <label style={{ display: 'block', marginBottom: 12 }}>Your email<input className="field" type="email" name="requesterEmail" required /></label>
+                  {requestError && <p style={{ color: '#b42318', fontSize: 13 }}>{requestError}</p>}
+                  <button className="btn-primary" type="submit" style={{ width: '100%' }} disabled={requestSubmitting}>
+                    {requestSubmitting ? 'Submitting...' : 'Submit Request'}
+                  </button>
+                </>
+              )}
+              <button type="button" className="btn-secondary" style={{ width: '100%', marginTop: 10 }} onClick={closeRequest}>Close</button>
             </form>
           </div>
         )}

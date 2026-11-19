@@ -2,8 +2,9 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { ArrowLeft, GraduationCap, LockKeyhole, Mail, CheckCircle2 } from 'lucide-react'
 import { api } from '../services/api'
+import { getApiErrorMessage } from '../services/errors'
 import { useAuth } from '../context/AuthContext'
-import type { College } from '../types'
+import type { College, User } from '../types'
 
 export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
   const isRegister = mode === 'register'
@@ -12,6 +13,7 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
   const { setUser } = useAuth()
   const collegeIdFromUrl = new URLSearchParams(location.search).get('college') || ''
   const [colleges, setColleges] = useState<College[]>([])
+  const [collegesError, setCollegesError] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [verification, setVerification] = useState(false)
@@ -19,8 +21,25 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
   const [developmentOtp, setDevelopmentOtp] = useState('')
 
   useEffect(() => {
-    if (isRegister) {
-      api.get('/colleges').then(({ data }) => setColleges(data.colleges)).catch(() => setColleges([]))
+    if (!isRegister) return
+
+    let active = true
+    api.get<{ colleges: College[] }>('/colleges')
+      .then(({ data }) => {
+        if (active) {
+          setColleges(data.colleges)
+          setCollegesError('')
+        }
+      })
+      .catch((err: unknown) => {
+        if (active) {
+          setColleges([])
+          setCollegesError(getApiErrorMessage(err, 'Unable to load colleges right now.'))
+        }
+      })
+
+    return () => {
+      active = false
     }
   }, [isRegister])
 
@@ -28,12 +47,13 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
     event.preventDefault()
     setLoading(true)
     setError('')
-    const form = new FormData(event.currentTarget)
-    const payload = Object.fromEntries(form)
+    const payload = Object.fromEntries(new FormData(event.currentTarget))
+
     try {
       const endpoint = isRegister ? '/auth/register' : '/auth/login'
-      const { data } = await api.post(endpoint, payload)
+      const { data } = await api.post<{ user: User; developmentOtp?: string }>(endpoint, payload)
       setUser(data.user)
+
       if (isRegister) {
         setDevelopmentOtp(data.developmentOtp || '')
         setVerification(true)
@@ -42,23 +62,28 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
       } else {
         navigate('/dashboard')
       }
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Unable to continue')
+    } catch (err: unknown) {
+      setError(getApiErrorMessage(err, 'Unable to continue. Please try again.'))
     } finally {
       setLoading(false)
     }
   }
 
-  const verifyEmail = async (event: FormEvent) => {
+  const verifyEmail = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setLoading(true)
     setError('')
+
     try {
-      const { data } = await api.post('/auth/verify-email', { otp })
-      await api.get('/auth/me').then((response) => setUser(response.data.user))
-      if (data.verificationStatus === 'verified' || data.verificationStatus === 'approved') navigate('/dashboard')
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Verification failed')
+      const { data } = await api.post<{ verificationStatus: User['verificationStatus'] }>('/auth/verify-email', { otp })
+      const response = await api.get<{ user: User }>('/auth/me')
+      setUser(response.data.user)
+
+      if (data.verificationStatus === 'verified' || data.verificationStatus === 'approved') {
+        navigate('/dashboard')
+      }
+    } catch (err: unknown) {
+      setError(getApiErrorMessage(err, 'Verification failed. Please try again.'))
     } finally {
       setLoading(false)
     }
@@ -103,6 +128,7 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
           {isRegister && <>
             <label style={{ display: 'block', marginBottom: 12, fontSize: 13, fontWeight: 800 }}>Full name<input className="field" name="fullName" placeholder="Your full name" required /></label>
             <label style={{ display: 'block', marginBottom: 12, fontSize: 13, fontWeight: 800 }}>College<select className="field" name="collegeId" defaultValue={collegeIdFromUrl} required><option value="" disabled>Select your college</option>{colleges.map((college) => <option key={college._id} value={college._id}>{college.name}</option>)}</select></label>
+            {collegesError && <p style={{ color: '#b42318', fontSize: 13, margin: '-4px 0 12px' }}>{collegesError}</p>}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
               <label style={{ display: 'block', marginBottom: 12, fontSize: 13, fontWeight: 800 }}>Department<input className="field" name="department" placeholder="Computer Science" required /></label>
               <label style={{ display: 'block', marginBottom: 12, fontSize: 13, fontWeight: 800 }}>Academic year<select className="field" name="academicYear" defaultValue="1">{[1,2,3,4,5].map((year) => <option key={year} value={year}>{year}</option>)}</select></label>
