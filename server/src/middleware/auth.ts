@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import { IUser, User, UserRole } from '../models/User.js'
+import { getJwtSecret } from '../utils/auth.js'
 
 export interface AuthRequest extends Request {
   user?: IUser
@@ -9,10 +10,12 @@ export interface AuthRequest extends Request {
 export async function requireAuth(req: AuthRequest, res: Response, next: NextFunction) {
   const token = req.cookies?.token
   if (!token) return res.status(401).json({ message: 'Authentication required' })
+
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET || 'development-secret') as { sub: string }
+    const payload = jwt.verify(token, getJwtSecret()) as { sub: string }
     const user = await User.findById(payload.sub)
     if (!user) return res.status(401).json({ message: 'Account not found' })
+
     req.user = user
     next()
   } catch {
