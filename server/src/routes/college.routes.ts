@@ -6,13 +6,19 @@ import { CollegeRequest } from '../models/CollegeRequest.js'
 
 const router = Router()
 
+function escapeRegex(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
 router.get('/', async (req, res, next) => {
   try {
-    const city = typeof req.query.city === 'string' ? req.query.city.trim() : undefined
-    const search = typeof req.query.search === 'string' ? req.query.search.trim() : undefined
+    const rawCity = typeof req.query.city === 'string' ? req.query.city.trim() : ''
+    const rawSearch = typeof req.query.search === 'string' ? req.query.search.trim() : ''
+    const search = rawSearch.slice(0, 100)
+
     const filter: Record<string, unknown> = { status: 'active' }
-    if (city) filter.city = city
-    if (search) filter.name = { $regex: search, $options: 'i' }
+    if (rawCity) filter.city = rawCity
+    if (search) filter.name = { $regex: escapeRegex(search), $options: 'i' }
 
     const colleges = await College.find(filter)
       .select('name city logoUrl domains studentCount')
