@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import { rateLimit } from 'express-rate-limit'
+import mongoose from 'mongoose'
 import { ZodError } from 'zod'
 import authRoutes from './routes/auth.routes.js'
 import collegeRoutes from './routes/college.routes.js'
@@ -34,6 +35,15 @@ app.use((error: unknown, _req: express.Request, res: express.Response, _next: ex
       issues: error.issues.map((issue) => ({ field: issue.path.join('.'), message: issue.message }))
     })
   }
+
+  if (error instanceof mongoose.Error.CastError) {
+    return res.status(400).json({ message: 'Invalid request identifier' })
+  }
+
+  if (typeof error === 'object' && error !== null && 'code' in error && (error as { code?: number }).code === 11000) {
+    return res.status(409).json({ message: 'A conflicting record already exists' })
+  }
+
   console.error(error)
   res.status(500).json({ message: 'An unexpected server error occurred' })
 })
