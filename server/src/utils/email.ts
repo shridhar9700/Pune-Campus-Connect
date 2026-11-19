@@ -3,6 +3,7 @@ export async function sendOtpEmail(email: string, otp: string): Promise<void> {
     console.log(`[Development] Verification OTP for ${email}: ${otp}`)
     return
   }
-  // SMTP configuration is intentionally isolated here for production setup.
-  console.log(`[SMTP] OTP requested for ${email}`)
+
+  // SMTP delivery is intentionally left as a placeholder until production mail credentials are configured.
+  console.log(`[SMTP] Verification email requested for ${email}`)
 }
