@@ -53,7 +53,10 @@ router.post('/register', async (req, res, next) => {
 
 router.post('/login', async (req, res, next) => {
   try {
-    const input = z.object({ email: z.string().email(), password: z.string().min(1) }).parse(req.body)
+    const input = z.object({
+      email: z.string().trim().email().transform((value) => value.toLowerCase()),
+      password: z.string().min(1)
+    }).parse(req.body)
     const user = await User.findOne({ email: input.email }).select('+passwordHash')
     if (!user || !(await user.comparePassword(input.password))) {
       return res.status(401).json({ message: 'Invalid email or password' })
@@ -70,8 +73,16 @@ router.post('/verify-email', requireAuth, async (req: AuthRequest, res, next) =>
   try {
     const { otp } = z.object({ otp: z.string().regex(/^\d{6}$/) }).parse(req.body)
     const user = await User.findById(req.user?.id).select('+otpHash +otpExpiresAt')
-    if (!user?.otpHash || !user.otpExpiresAt) {
-      return res.status(400).json({ message: 'Verification is unavailable. Register again.' })
+    if (!user) {
+      return res.status(404).json({ message: 'Account not found' })
+    }
+
+    if (user.verificationStatus === 'verified' || user.verificationStatus === 'approved') {
+      return res.json({ verificationStatus: user.verificationStatus })
+    }
+
+    if (!user.otpHash || !user.otpExpiresAt) {
+      return res.status(400).json({ message: 'Verification is unavailable. Please register again.' })
     }
     if (user.otpExpiresAt.getTime() < Date.now()) {
       return res.status(400).json({ message: 'Verification code has expired' })
