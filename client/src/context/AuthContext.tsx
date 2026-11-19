@@ -18,7 +18,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const refreshUser = async () => {
     try {
-      const { data } = await api.get('/auth/me')
+      const { data } = await api.get<{ user: User }>('/auth/me')
       setUser(data.user)
     } catch {
       setUser(null)
@@ -27,11 +27,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  useEffect(() => { void refreshUser() }, [])
+  useEffect(() => {
+    void refreshUser()
+  }, [])
 
   const logout = async () => {
-    await api.post('/auth/logout')
-    setUser(null)
+    try {
+      await api.post('/auth/logout')
+    } finally {
+      setUser(null)
+    }
   }
 
   return (
