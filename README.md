@@ -2,116 +2,91 @@
 
 ### One City. Every College. One Connected Community.
 
-**Campus Connect** is a college-focused social networking platform designed to bring students, seniors, alumni, and college communities across Pune city together in one place.
+**Campus Connect** is a college-focused social networking platform designed to bring students, seniors, alumni, and college communities across Pune together in one place.
 
-Currently, college life is scattered across WhatsApp groups, Instagram pages, Snapchat, and unofficial communities. Students often miss important updates, events, opportunities, and connections beyond their own college.
+The project aims to reduce fragmented campus communication by providing a shared platform for college discovery, verified onboarding, and community-oriented features.
 
-Campus Connect aims to change that by creating **one connected digital network for colleges across Pune.**
+## Current implementation
 
-## The Idea
+The repository currently includes a working full-stack foundation with:
 
-Imagine a platform where a student from any participating college in Pune can:
+- **College discovery:** browse/search active colleges and submit a request to add a new college.
+- **Authentication:** student/alumni registration, login, cookie-based sessions, and email verification flow (development OTP logging when SMTP is not configured).
+- **Protected dashboard:** authenticated user dashboard shell with profile/status-aware UI.
+- **Backend API:** Express + MongoDB services for auth and college/community onboarding flows.
+- **Seed data:** script to upsert an initial set of Pune colleges.
 
-- Connect with students from their own college and other colleges.
-- Discover what's happening across Pune's college campuses.
-- Share memes, confessions, experiences, and discussions.
-- Explore events, fests, hackathons, workshops, and competitions.
-- Connect with seniors and alumni for guidance.
-- Discover different college clubs and student communities.
+> Note: Several community features described in the product vision (feeds, events, clubs, mentorship, archives, media uploads, etc.) are planned and not fully implemented yet.
 
-The bigger idea is to bring Pune's college ecosystem together, rather than keeping every college isolated in its own social media groups.
+## Technology stack
 
-## What Makes Campus Connect Different?
-
-### 1. One Network for All Pune Colleges
-
-Every college gets its own dedicated community, while all participating colleges are connected through a common Pune-wide network.
-
-For example, an event announcement from one college, an inter-college competition, a hackathon, or an important opportunity can reach students across participating colleges through a shared announcement and discovery feed.
-
-Instead of information remaining limited to one college's WhatsApp groups or Instagram followers, relevant updates can reach the wider student community across Pune.
-
-**One announcement. Multiple colleges. A much wider student reach.**
-
-### 2. College Community
-
-A dedicated space for every college where students can:
-- Share posts and memes.
-- Publish anonymous confessions.
-- Participate in discussions and polls.
-- Discover college updates.
-- Interact with other students.
-
-### 3. Events and Opportunities
-
-Discover what's happening across Pune's colleges:
-- College festivals and celebrations.
-- Technical events and hackathons.
-- Workshops and competitions.
-- NSS and social activities.
-- Internships and student opportunities.
-
-### 4. Clubs and Societies
-
-Dedicated spaces for clubs such as NSS, CSI, IEEE, Coding Clubs, Robotics Clubs, and Cultural Committees.
-
-Students can explore club activities, announcements, events, and membership opportunities.
-
-### 5. Senior and Alumni Connect
-
-Connect juniors with seniors and graduates for career guidance, placement preparation, internships, technical advice, and college experiences.
-
-### 6. Club Memory and Knowledge Sharing
-
-One of the key features of Campus Connect is preserving club history.
-
-Previous coordinators can share event reports, photographs, documents, planning resources, and handover notes so that new committee members can learn from previous teams.
-
-Valuable knowledge should not disappear when students graduate.
-
-## How It Works
-
-1. Register on Campus Connect.
-2. Select and verify your college.
-3. Enter your college community.
-4. Explore posts, events, clubs, and discussions.
-5. Connect with students and alumni from other participating colleges.
-6. Discover Pune-wide announcements, opportunities, and activities.
-
-## Technology Stack
-
-The platform is being developed using the MERN stack with TypeScript.
-
-| Technology | Purpose |
+| Area | Technology |
 |---|---|
-| React.js | Frontend development |
-| TypeScript | Type safety |
-| HTML5 & CSS3 | Structure and styling |
-| Node.js | Backend runtime |
-| Express.js | REST API development |
-| MongoDB | Database |
-| Mongoose | Database modeling |
-| JWT | Authentication |
-| Cloudinary | Media storage |
+| Frontend | React, TypeScript, Vite, React Router, Tailwind CSS, Axios |
+| Backend | Node.js, Express, TypeScript |
+| Database | MongoDB, Mongoose |
+| Auth & validation | JWT (HTTP-only cookies), bcrypt, Zod |
+| Tooling | tsx, concurrently |
 
-## Future Vision
+## Project structure
 
-The initial focus is on bringing a few colleges in Pune together and building active student communities before expanding further.
+- `client/` — React frontend application
+- `server/` — Express API, models, routes, middleware, and seed script
+- `package.json` — root scripts for installing, running, building, and seeding
 
-Future possibilities include:
-- Pune-wide inter-college event discovery.
-- Campus marketplace for buying and selling student essentials.
-- AI-powered content recommendations.
-- Internship and placement opportunity sharing.
-- Real-time student communication.
-- Mobile application.
+## Local development
 
-## Our Vision
+### Prerequisites
+- Node.js (LTS recommended)
+- npm
+- MongoDB (local instance or hosted connection string)
 
-We believe college communities should not end at the boundaries of their campuses.
+### 1. Install dependencies
+```bash
+npm install
+npm run install:all
+```
 
-A student should be able to discover opportunities beyond their own college, participate in events across the city, connect with students from different institutions, and remain connected with their college even after graduation.
+### 2. Configure server environment
+Create `server/.env` based on `server/.env.example`:
 
-**Campus Connect is not just about connecting students within a college. It is about connecting the colleges themselves.**
+```env
+PORT=5000
+MONGODB_URI=mongodb://127.0.0.1:27017/campus-connect
+JWT_SECRET=replace-with-a-long-random-secret
+CLIENT_URL=http://localhost:5173
+NODE_ENV=development
+```
 
-### One City. Every College. One Connected Community.
+- In development, if `JWT_SECRET` is not set, the server falls back to a development-only secret.
+- If `SMTP_HOST` is not configured, verification OTPs are logged to the server console for development.
+
+### 3. Seed colleges (optional but recommended)
+```bash
+npm run seed
+```
+
+### 4. Start the app
+```bash
+npm run dev
+```
+
+- Client: `http://localhost:5173`
+- Server: `http://localhost:5000` (Vite proxies `/api` requests to the server)
+
+### Build
+```bash
+npm run build
+```
+
+## Product vision
+
+Campus Connect aims to grow into a connected ecosystem for Pune colleges with features such as:
+
+- Cross-college announcements and event discovery
+- Campus feeds, discussions, and communities
+- Clubs, societies, and knowledge archives
+- Senior/alumni mentorship and opportunities
+- Rich media sharing and real-time communication
+
+**One City. Every College. One Connected Community.**
