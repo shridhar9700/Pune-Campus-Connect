@@ -36,18 +36,38 @@ export function DashboardPage() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 18 }}>
           <div style={{ position: 'relative', flex: 1 }}>
             <Search size={17} style={{ position: 'absolute', left: 14, top: 12, color: '#98a1b2' }} />
-            <input className="field" style={{ height: 42, paddingLeft: 40, background: 'white' }} placeholder="Search campus" />
+            <input
+              className="field"
+              style={{ height: 42, paddingLeft: 40, background: 'white' }}
+              placeholder="Search campus"
+              aria-label="Search campus"
+            />
           </div>
-          <button style={{ width: 42, height: 42, borderRadius: 12, border: '1px solid #edf0f5', background: 'white', color: '#657087', display: 'grid', placeItems: 'center', position: 'relative' }}><Bell size={19} /><span style={{ position: 'absolute', width: 7, height: 7, borderRadius: '50%', background: '#ef4444', right: 8, top: 8 }} /></button>
+          <button
+            type="button"
+            aria-label="Notifications"
+            style={{ width: 42, height: 42, borderRadius: 12, border: '1px solid #edf0f5', background: 'white', color: '#657087', display: 'grid', placeItems: 'center', position: 'relative' }}
+          >
+            <Bell size={19} />
+            <span aria-hidden="true" style={{ position: 'absolute', width: 7, height: 7, borderRadius: '50%', background: '#ef4444', right: 8, top: 8 }} />
+          </button>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18 }}>
           <div><span style={{ color: '#8a94a7', fontSize: 13 }}>Good morning,</span><h1 style={{ margin: '2px 0', fontSize: 24, letterSpacing: -.5 }}>{user?.fullName || 'Campus member'}</h1></div>
-          <button className="btn-primary" style={{ height: 42, padding: '0 14px' }}>Create Post</button>
+          <button type="button" className="btn-primary" style={{ height: 42, padding: '0 14px' }}>Create Post</button>
         </div>
 
         <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 12 }}>
-          {['For You', 'Latest', 'Trending', 'Campus News', 'Memes', 'Confessions', 'Discussions', 'Events'].map((filter, index) => <button key={filter} style={{ flexShrink: 0, height: 36, borderRadius: 999, border: index === 0 ? 0 : '1px solid #e6eaf1', background: index === 0 ? '#4f46e5' : 'white', color: index === 0 ? 'white' : '#69748a', padding: '0 13px', fontWeight: 800, fontSize: 12 }}>{filter}</button>)}
+          {['For You', 'Latest', 'Trending', 'Campus News', 'Memes', 'Confessions', 'Discussions', 'Events'].map((filter, index) => (
+            <button
+              key={filter}
+              type="button"
+              style={{ flexShrink: 0, height: 36, borderRadius: 999, border: index === 0 ? 0 : '1px solid #e6eaf1', background: index === 0 ? '#4f46e5' : 'white', color: index === 0 ? 'white' : '#69748a', padding: '0 13px', fontWeight: 800, fontSize: 12 }}
+            >
+              {filter}
+            </button>
+          ))}
         </div>
 
         {user?.verificationStatus === 'pending' && <div style={{ background: '#fff7df', border: '1px solid #f3dda2', color: '#806a2b', borderRadius: 12, padding: 12, marginBottom: 14, fontSize: 13 }}>Your college membership is pending verification. Some community features may be limited.</div>}
@@ -81,8 +101,21 @@ export function DashboardPage() {
         <div style={{ marginTop: 16 }}><strong style={{ fontSize: 14 }}>Upcoming</strong><div className="post-card" style={{ marginTop: 10, padding: 14 }}><span style={{ color: '#4f46e5', fontSize: 11, fontWeight: 900 }}>NOV 24 · 10:00 AM</span><h3 style={{ fontSize: 14, margin: '7px 0 4px' }}>AI & Data Science Workshop</h3><p style={{ color: '#8a94a7', fontSize: 12, margin: 0 }}>Computer Lab 2</p></div></div>
       </aside>
 
-      <nav className="mobile-nav">
-        {[Home, Compass, CalendarDays, Users, Bell].map((Icon, index) => <Icon key={index} size={20} color={index === 0 ? '#4f46e5' : '#8791a3'} />)}
+      <nav className="mobile-nav" aria-label="Mobile navigation">
+        {[
+          [Home, 'Home'],
+          [Compass, 'Explore'],
+          [CalendarDays, 'Events'],
+          [Users, 'Community'],
+          [Bell, 'Notifications']
+        ].map(([Icon, label], index) => {
+          const NavIcon = Icon as typeof Home
+          return (
+            <button key={label as string} type="button" aria-label={label as string} style={{ border: 0, background: 'transparent', padding: 8, display: 'grid', placeItems: 'center' }}>
+              <NavIcon size={20} color={index === 0 ? '#4f46e5' : '#8791a3'} />
+            </button>
+          )
+        })}
       </nav>
     </div>
   )
