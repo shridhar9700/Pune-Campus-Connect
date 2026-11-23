@@ -55,6 +55,102 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .side-link.active, .side-link:hover { background: #eeedff; color: #4f46e5; }
 .post-card { background: white; border: 1px solid #edf0f5; border-radius: 16px; padding: 18px; }
 .mobile-nav { display: none; }
+.demo-sample-pill { position: absolute; z-index: 1; top: 17px; right: 20px; border-radius: 999px; background: rgba(255,255,255,.92); color: #4f46e5; padding: 6px 9px; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: .5px; }
+.demo-page { min-height: 100vh; background: #f5f7fb; color: #17213a; }
+.demo-header { height: 68px; background: rgba(255,255,255,.96); border-bottom: 1px solid #e9edf4; }
+.demo-header-inner { width: min(1420px, calc(100% - 48px)); height: 100%; margin: auto; display: flex; align-items: center; justify-content: space-between; }
+.demo-brand { display: inline-flex; align-items: center; gap: 9px; color: #17213a; text-decoration: none; font-weight: 900; }
+.demo-brand-mark { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 10px; color: white; background: #4f46e5; }
+.demo-header-actions { display: flex; align-items: center; gap: 20px; }
+.demo-mode-badge, .demo-campus-chip { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; background: #eeedff; color: #4f46e5; padding: 7px 10px; font-size: 12px; font-weight: 800; }
+.demo-login-link, .demo-side-login { color: #626d82; text-decoration: none; font-size: 13px; font-weight: 800; }
+.demo-create-link { padding: 10px 14px; font-size: 13px; }
+.demo-shell { width: min(1420px, calc(100% - 48px)); margin: 0 auto; }
+.demo-welcome { padding: 34px 0 25px; display: flex; align-items: end; justify-content: space-between; gap: 24px; }
+.demo-back-link { display: inline-flex; align-items: center; gap: 6px; color: #737e92; text-decoration: none; font-size: 12px; font-weight: 700; }
+.demo-eyebrow, .demo-label, .demo-nav-label { color: #747e92; font-size: 10px; letter-spacing: .9px; font-weight: 900; text-transform: uppercase; }
+.demo-eyebrow { display: flex; align-items: center; gap: 7px; color: #4f46e5; margin-top: 21px; }
+.demo-welcome h1 { margin: 9px 0 7px; font-size: clamp(30px, 4vw, 42px); letter-spacing: -1.7px; }
+.demo-welcome h1 span { color: #6256e8; }
+.demo-welcome p { color: #737e92; max-width: 650px; line-height: 1.6; margin: 0; font-size: 14px; }
+.demo-sample-note { flex: 0 0 320px; display: flex; align-items: flex-start; gap: 10px; background: #eeedff; border: 1px solid #e2e0ff; border-radius: 13px; padding: 13px; color: #4f46e5; font-size: 11px; line-height: 1.5; }
+.demo-sample-note strong { font-size: 12px; }
+.demo-workspace { display: grid; grid-template-columns: 220px minmax(0, 1fr) 260px; gap: 18px; align-items: start; }
+.demo-navigation, .demo-side-card, .demo-post-card, .demo-poll-card { background: white; border: 1px solid #e9edf4; border-radius: 15px; }
+.demo-navigation { padding: 17px 12px; position: sticky; top: 15px; }
+.demo-nav-label { display: block; padding: 0 9px 10px; }
+.demo-nav-item { width: 100%; display: flex; align-items: center; gap: 10px; border: 0; background: transparent; padding: 10px 9px; border-radius: 9px; color: #68748a; text-align: left; font-weight: 750; font-size: 13px; cursor: pointer; }
+.demo-nav-item:hover, .demo-nav-item.active { background: #eeedff; color: #4f46e5; }
+.demo-nav-signup { border-top: 1px solid #edf0f5; margin-top: 14px; padding: 15px 8px 2px; }
+.demo-nav-signup-icon, .demo-promo-icon, .demo-poll-icon { width: 35px; height: 35px; display: grid; place-items: center; border-radius: 11px; background: #eeedff; color: #4f46e5; margin-bottom: 10px; }
+.demo-nav-signup strong { font-size: 12px; }
+.demo-nav-signup p, .demo-side-card p { color: #7a8497; font-size: 11px; line-height: 1.55; margin: 6px 0 10px; }
+.demo-nav-signup a { display: inline-flex; align-items: center; gap: 4px; color: #4f46e5; text-decoration: none; font-size: 11px; font-weight: 900; }
+.demo-content { min-width: 0; }
+.demo-section-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 0 0 14px; }
+.demo-section-heading h2 { font-size: 22px; letter-spacing: -.6px; margin: 3px 0 0; }
+.demo-campus-chip { flex: 0 0 auto; font-size: 10px; padding: 7px 9px; }
+.demo-category-tabs { display: flex; gap: 6px; overflow-x: auto; padding: 2px 0 12px; }
+.demo-category-tabs button { flex: 0 0 auto; border: 1px solid #e6eaf1; background: white; border-radius: 999px; padding: 8px 12px; color: #68748a; font-size: 11px; font-weight: 800; cursor: pointer; }
+.demo-category-tabs button.selected { background: #4f46e5; border-color: #4f46e5; color: white; }
+.demo-post-card, .demo-poll-card { padding: 16px; margin-bottom: 12px; }
+.demo-post-author { display: flex; align-items: center; gap: 10px; }
+.demo-avatar { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; flex: 0 0 auto; color: white; font-weight: 900; font-size: 15px; }
+.demo-post-author strong { display: block; font-size: 12px; }
+.demo-post-author div:nth-child(2) span { display: block; margin-top: 3px; color: #919bad; font-size: 10px; }
+.demo-sample-tag { margin-left: auto; flex: 0 0 auto; background: #f1f0ff; color: #5b52d8; border-radius: 999px; padding: 5px 7px; font-size: 8px; font-weight: 900; letter-spacing: .5px; }
+.demo-post-message { color: #465168; line-height: 1.65; font-size: 13px; margin: 13px 0; }
+.demo-post-actions { display: flex; gap: 18px; border-top: 1px solid #f0f2f6; padding-top: 11px; }
+.demo-post-actions button { display: inline-flex; align-items: center; gap: 6px; border: 0; padding: 0; background: transparent; color: #737e92; font-size: 11px; cursor: pointer; }
+.demo-post-actions button.liked { color: #d94f74; }
+.demo-post-actions button span { color: #a0a8b6; }
+.demo-comments { border-top: 1px solid #f0f2f6; margin-top: 12px; padding-top: 9px; }
+.demo-comments p { color: #68748a; font-size: 11px; line-height: 1.5; margin: 7px 0; }
+.demo-comments form { display: flex; gap: 7px; margin-top: 10px; }
+.demo-comments input { min-width: 0; flex: 1; height: 36px; border: 1px solid #e3e7ef; border-radius: 9px; outline: none; padding: 0 10px; font-size: 11px; }
+.demo-comments input:focus { border-color: #7770ea; }
+.demo-comments form button { display: grid; place-items: center; width: 36px; border: 0; border-radius: 9px; color: white; background: #4f46e5; cursor: pointer; }
+.demo-temporary-hint { display: block; margin-top: 6px; color: #9aa3b4; font-size: 9px; }
+.demo-poll-card { background: linear-gradient(135deg,#fff,#fbfaff); }
+.demo-poll-icon { width: 38px; height: 38px; flex: 0 0 auto; }
+.demo-poll-question { margin: 15px 0 10px; color: #344057; font-weight: 800; font-size: 13px; }
+.demo-poll-options { display: grid; gap: 7px; }
+.demo-poll-option { min-height: 38px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; border: 1px solid #e8eaf1; border-radius: 9px; background: white; padding: 8px 10px; color: #5b667b; text-align: left; font-size: 11px; cursor: pointer; }
+.demo-poll-option.chosen { border-color: #7169e5; color: #4f46e5; background: #f9f8ff; }
+.demo-poll-option.results { cursor: default; }
+.demo-poll-bar { position: absolute; inset: 0 auto 0 0; background: #eeedff; }
+.demo-poll-option-label, .demo-poll-percent { position: relative; z-index: 1; }
+.demo-poll-percent { font-weight: 900; color: #4f46e5; }
+.demo-poll-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 11px; }
+.demo-poll-footer > span { display: inline-flex; align-items: center; gap: 4px; color: #8a94a7; font-size: 10px; }
+.demo-poll-footer > span svg { color: #16845b; }
+.demo-vote-button { border: 0; border-radius: 8px; background: #4f46e5; color: white; padding: 8px 13px; font-size: 10px; font-weight: 900; cursor: pointer; }
+.demo-vote-button:disabled { background: #d9d7f8; cursor: default; }
+.demo-section-intro { color: #778297; font-size: 12px; line-height: 1.6; margin: -5px 0 15px; }
+.demo-discovery-list { display: grid; gap: 10px; }
+.demo-discovery-card, .demo-club-card { display: flex; align-items: center; gap: 13px; background: white; border: 1px solid #e9edf4; border-radius: 14px; padding: 15px; }
+.demo-discovery-icon, .demo-club-icon { width: 45px; height: 45px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 13px; color: #5149cf; }
+.demo-club-icon { background: #eeedff; }
+.demo-discovery-info { min-width: 0; flex: 1; }
+.demo-discovery-info h3 { font-size: 14px; margin: 4px 0 6px; }
+.demo-discovery-info p { display: flex; align-items: center; gap: 5px; color: #7d8799; font-size: 10px; line-height: 1.5; margin: 3px 0; }
+.demo-action-button { display: inline-flex; align-items: center; justify-content: center; gap: 5px; flex: 0 0 auto; border: 1px solid #dfe3ed; border-radius: 9px; background: white; color: #505b71; padding: 8px 10px; font-size: 10px; font-weight: 900; cursor: pointer; }
+.demo-action-button.confirmed { background: #eaf7f1; border-color: #d1eddf; color: #16845b; }
+.demo-side-panel { display: grid; gap: 12px; }
+.demo-side-card { padding: 16px; }
+.demo-promo-icon { background: #eaf7f1; color: #16845b; }
+.demo-promo-card h3 { font-size: 16px; line-height: 1.3; margin: 8px 0; }
+.demo-promo-card .btn-primary { width: 100%; padding: 10px 8px; font-size: 11px; }
+.demo-side-login { display: block; text-align: center; margin-top: 12px; font-size: 10px; }
+.demo-sample-heading { display: flex; align-items: center; justify-content: space-between; }
+.demo-sample-heading strong { font-size: 12px; }
+.demo-feature-list { display: grid; gap: 12px; margin: 15px 0; }
+.demo-feature-list span { display: flex; align-items: center; gap: 8px; color: #606b80; font-size: 10px; }
+.demo-feature-list svg { color: #6c63df; }
+.demo-private-note { display: flex; align-items: flex-start; gap: 6px; border-top: 1px solid #edf0f5; padding-top: 11px; margin: 0 !important; font-size: 10px !important; }
+.demo-private-note svg { flex: 0 0 auto; color: #16845b; }
+.demo-footer { display: flex; justify-content: space-between; gap: 12px; padding: 18px 0 25px; color: #939cad; font-size: 10px; }
+.demo-footer a { display: inline-flex; align-items: center; gap: 5px; color: #4f46e5; text-decoration: none; font-weight: 800; }
 
 @media (max-width: 960px) {
   .hero-grid { grid-template-columns: 1fr; padding: 60px 0 80px; }
@@ -67,6 +163,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .sidebar .label, .sidebar .brand-name { display: none; }
   .side-link { justify-content: center; }
   .right-sidebar { display: none; }
+  .demo-workspace { grid-template-columns: 190px minmax(0, 1fr); }
+  .demo-side-panel { display: none; }
 }
 
 @media (max-width: 640px) {
@@ -79,4 +177,26 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .sidebar { display: none; }
   .dashboard-main { padding: 14px; padding-bottom: 80px; }
   .mobile-nav { position: fixed; z-index: 20; display: flex; bottom: 0; left: 0; right: 0; height: 64px; background: white; border-top: 1px solid #edf0f5; justify-content: space-around; align-items: center; }
+  .demo-header { height: 60px; }
+  .demo-header-inner, .demo-shell { width: calc(100% - 28px); }
+  .demo-header-actions { gap: 9px; }
+  .demo-mode-badge { font-size: 0; padding: 8px; }
+  .demo-mode-badge svg { width: 15px; height: 15px; }
+  .demo-login-link { display: none; }
+  .demo-create-link { padding: 9px 10px; font-size: 11px; }
+  .demo-welcome { display: block; padding-top: 23px; }
+  .demo-welcome h1 { font-size: 34px; }
+  .demo-sample-note { margin-top: 15px; }
+  .demo-workspace { display: block; }
+  .demo-navigation { position: static; display: flex; gap: 4px; overflow-x: auto; padding: 8px; margin-bottom: 13px; }
+  .demo-nav-label, .demo-nav-signup { display: none; }
+  .demo-nav-item { width: auto; flex: 0 0 auto; white-space: nowrap; padding: 9px; font-size: 11px; }
+  .demo-nav-item svg { width: 16px; }
+  .demo-section-heading h2 { font-size: 20px; }
+  .demo-campus-chip { font-size: 0; padding: 8px; }
+  .demo-campus-chip svg { width: 15px; height: 15px; }
+  .demo-discovery-card, .demo-club-card { align-items: flex-start; flex-wrap: wrap; }
+  .demo-discovery-info { flex-basis: calc(100% - 58px); }
+  .demo-action-button { margin-left: 58px; }
+  .demo-footer { padding-bottom: 82px; flex-direction: column; }
 }

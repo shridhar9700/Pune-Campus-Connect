@@ -1,9 +1,11 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom'
+import { AuthProvider } from './context/AuthContext'
 import { useAuth } from './context/AuthContext'
 import { LandingPage } from './pages/LandingPage'
 import { CollegePage } from './pages/CollegePage'
 import { AuthPage } from './pages/AuthPage'
 import { DashboardPage } from './pages/DashboardPage'
+import { DemoPage } from './pages/DemoPage'
 
 function ProtectedDashboard() {
   const { user, loading } = useAuth()
@@ -18,9 +20,12 @@ export default function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/colleges" element={<CollegePage />} />
-        <Route path="/login" element={<AuthPage mode="login" />} />
-        <Route path="/register" element={<AuthPage mode="register" />} />
-        <Route path="/dashboard" element={<ProtectedDashboard />} />
+        <Route path="/demo" element={<DemoPage />} />
+        <Route element={<AuthProvider><Outlet /></AuthProvider>}>
+          <Route path="/login" element={<AuthPage mode="login" />} />
+          <Route path="/register" element={<AuthPage mode="register" />} />
+          <Route path="/dashboard" element={<ProtectedDashboard />} />
+        </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

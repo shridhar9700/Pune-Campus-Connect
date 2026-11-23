@@ -13,6 +13,7 @@ export function LandingPage() {
           <nav className="desktop-nav" style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
             <a className="nav-link" href="#features">Features</a>
             <a className="nav-link" href="#about">About</a>
+            <Link className="nav-link" to="/demo">Try interactive demo</Link>
             <Link className="nav-link" to="/login">Login</Link>
             <Link className="btn-primary" to="/colleges">Join Your Campus</Link>
           </nav>
@@ -32,8 +33,9 @@ export function LandingPage() {
               </p>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                 <Link className="btn-primary" to="/colleges">Join Your Campus <ArrowRight size={17} /></Link>
-                <a className="btn-secondary" href="#features">Explore Features</a>
+                <Link className="btn-secondary" to="/demo">Try interactive demo</Link>
               </div>
+              <p style={{ color: '#7a8497', fontSize: 13, marginTop: 12 }}>Explore sample campus posts, polls, events and clubs. No account needed.</p>
               <div style={{ display: 'flex', gap: 28, marginTop: 34, color: '#7a8497', fontSize: 13 }}>
                 <span><strong style={{ display: 'block', color: '#17213a', fontSize: 18 }}>College-first</strong>Verified communities</span>
                 <span><strong style={{ display: 'block', color: '#17213a', fontSize: 18 }}>Forever</strong>Knowledge preserved</span>
@@ -41,6 +43,7 @@ export function LandingPage() {
             </div>
 
             <div className="feed-preview" aria-label="Campus feed preview">
+              <span className="demo-sample-pill">Sample preview</span>
               <div style={{ color: 'rgba(255,255,255,.75)', display: 'flex', justifyContent: 'space-between', marginBottom: 14 }}>
                 <strong style={{ color: 'white' }}>Fergusson College</strong><span>Campus Feed</span>
               </div>
